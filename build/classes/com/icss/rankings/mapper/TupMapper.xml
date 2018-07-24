@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icss.rankings.dao.TupMapper" >
+  <resultMap id="BaseResultMap" type="com.icss.rankings.pojo.Tup" >
+    <id column="T_ID" property="tId" jdbcType="DECIMAL" />
+    <result column="T_NAME" property="tName" jdbcType="VARCHAR" />
+    <result column="T_INFO" property="tInfo" jdbcType="VARCHAR" />
+    <result column="T_BIRTHDAY" property="tBirthday" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.icss.rankings.pojo.Tup" extends="BaseResultMap" >
+    <result column="T_IMG" property="tImg" jdbcType="CLOB" />
+  </resultMap>
+ 
+ 
+  <insert id="insert" parameterType="com.icss.rankings.pojo.Tup" >
+    insert into TUP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+     
+        T_ID,
+    
+      <if test="tName != null" >
+        T_NAME,
+      </if>
+      <if test="tInfo != null" >
+        T_INFO,
+      </if>
+      <if test="tBirthday != null" >
+        T_BIRTHDAY,
+      </if>
+      <if test="tImg != null" >
+        T_IMG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+     
+      t_seq.nextval,
+     
+      <if test="tName != null" >
+        #{tName,jdbcType=VARCHAR},
+      </if>
+      <if test="tInfo != null" >
+        #{tInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="tBirthday != null" >
+        #{tBirthday,jdbcType=VARCHAR},
+      </if>
+      <if test="tImg != null" >
+        #{tImg,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+ 
+  <select id="queryAllTup" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select * from tup 
+  </select>
+  
+    <delete id="deleteTupById" parameterType="java.lang.Integer">
+        delete from TUP where t_id = #{tId}
+  </delete>
+  
+  <update id="updateTupById" parameterType="com.icss.rankings.pojo.Tup" >
+        update TUP set t_name=#{tName}, t_img=#{tImg}, t_info=#{tInfo} where t_id=#{tId} 
+  </update>
+  
+   <select id="queryTupById" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select * from TUP where t_id=#{tId}
+  </select>
+  
+</mapper>

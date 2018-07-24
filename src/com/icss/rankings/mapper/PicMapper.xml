@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icss.rankings.dao.PicMapper" >
+  <resultMap id="BaseResultMap" type="com.icss.rankings.pojo.Pic" >
+    <id column="P_ID" property="pId" jdbcType="DECIMAL" />
+    <result column="P_INFO" property="pInfo" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.icss.rankings.pojo.Pic" extends="BaseResultMap" >
+    <result column="P_IMG" property="pImg" jdbcType="CLOB" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    P_ID, P_INFO
+  </sql>
+  <sql id="Blob_Column_List" >
+    P_IMG
+  </sql>
+
+
+  <insert id="insert" parameterType="com.icss.rankings.pojo.Pic" >
+    insert into PIC
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+    
+        P_ID,
+     
+      <if test="pInfo != null" >
+        P_INFO,
+      </if>
+      <if test="pImg != null" >
+        P_IMG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+       b_seq.nextval,
+      <if test="pInfo != null" >
+        #{pInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="pImg != null" >
+        #{pImg,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+ 
+</mapper>

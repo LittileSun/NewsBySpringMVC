@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icss.rankings.dao.ReporterMapper" >
+  <resultMap id="BaseResultMap" type="com.icss.rankings.pojo.Reporter" >
+    <id column="R_ID" property="rId" jdbcType="DECIMAL" />
+    <result column="R_NAME" property="rName" jdbcType="VARCHAR" />
+    <result column="R_INFO" property="rInfo" jdbcType="VARCHAR" />
+    <result column="R_BIRTHDAY" property="rBirthday" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.icss.rankings.pojo.Reporter" extends="BaseResultMap" >
+    <result column="R_IMG" property="rImg" jdbcType="CLOB" />
+  </resultMap>
+  
+  
+  <insert id="insert" parameterType="com.icss.rankings.pojo.Reporter" >
+    insert into REPORTER (R_ID, R_NAME, R_INFO, 
+      R_BIRTHDAY, R_IMG)
+    values (r_seq.nextval,#{rName,jdbcType=VARCHAR}, #{rInfo,jdbcType=VARCHAR}, 
+      #{rBirthday,jdbcType=VARCHAR},#{rImg,jdbcType=CLOB})
+  </insert>
+  
+  
+  <select id="queryAllReporter" resultMap="ResultMapWithBLOBs">
+  		select * from REPORTER
+  </select>
+  
+  <select id="queryReporterById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+		select * from REPORTER where r_id = #{rId}
+	</select>
+	
+	<delete id="deleteReporterById" parameterType="java.lang.Integer">
+	   delete from REPORTER where r_id = #{rId}
+	</delete>
+	
+	<update id="updateReporterById" parameterType="com.icss.rankings.pojo.Reporter">
+       update REPORTER  set r_name=#{rName},r_img=#{rImg},r_info=#{rInfo},r_birthday=#{rBirthday} where r_id=#{rId}
+    </update>
+	
+</mapper>
